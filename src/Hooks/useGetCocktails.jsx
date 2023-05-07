@@ -14,8 +14,8 @@ const useGetCocktails = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     if (query) {
+      setIsLoading(true);
       searchByName(query)
         .then((res) => {
           setCocktails(res.drinks);

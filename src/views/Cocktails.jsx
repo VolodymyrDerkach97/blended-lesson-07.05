@@ -10,16 +10,16 @@ export const Cocktails = () => {
   return (
     <>
       {isLoading && <Loader />}
-      {isSuccess && (
         <Section>
           <h1 className="uppercase text-4xl text-gray-600 text-center">
             Search Cocktails
           </h1>
 
           <SearchForm onSubmit={handleSubmit} />
+          {isSuccess && (
           <CocktailsList cocktails={cocktails} />
+          )}
         </Section>
-      )}
     </>
   );
 };
