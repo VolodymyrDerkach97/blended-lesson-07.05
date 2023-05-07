@@ -1,22 +1,14 @@
-import { Section } from "../components/Section";
 import { Loader } from "../components/Loader";
 import { GoBackBtn } from "../components/GoBackBtn";
 import { CocktailInfo } from "../components/CocktailInfo";
-import { useLocation, useParams } from "react-router-dom";
-import { routes } from "../routes";
-import { useEffect, useState } from "react";
-import { getCocktailDetail } from "../api/cocktail-service";
+import { useLocation } from "react-router-dom";
+import useGetCocktailDetail from "../Hooks/useGetCocktailDetail";
 
 export const CocktailDetail = () => {
-  const [drinkDetail, setDrinkDetail] = useState(null);
-  const { cocktailId } = useParams();
-
-  useEffect(() => {
-    getCocktailDetail(cocktailId).then(setDrinkDetail).catch(console.log);
-  }, [cocktailId]);
+  const { isLoading, isSuccess, drinkDetail } = useGetCocktailDetail();
 
   const location = useLocation();
-  const path = location?.state?.from ?? '/';
+  const path = location?.state?.from ?? "/";
 
   console.log("path", path);
 
@@ -25,8 +17,14 @@ export const CocktailDetail = () => {
       <h1 className="uppercase text-4xl text-gray-600 text-center">
         CocktailDetail
       </h1>
-      <GoBackBtn path={path} />
-      {drinkDetail && <CocktailInfo {...drinkDetail} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <GoBackBtn path={path} />
+          {isSuccess && <CocktailInfo {...drinkDetail} />}
+        </>
+      )}
     </>
   );
 };
